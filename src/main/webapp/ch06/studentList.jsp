@@ -25,8 +25,8 @@
                 <td>${s.id}</td>
                 <td><a href="/students?action=info&id=${s.id}">${s.name}</a></td>
                 <td>${s.univ}</td>
-<%--                <td>${s.birth}</td>--%>
-<%--                <td>${s.email}</td>--%>
+                <td><a href="/students?action=update&id=${s.id}">수정</a></td>
+                <td><a href="/students?action=delete&id=${s.id}">삭제</a></td>
             </tr>
         </c:forEach>
     </table>

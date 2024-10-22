@@ -57,12 +57,20 @@ public class StudentController extends HttpServlet {
                         resp.sendRedirect(view);
                     }
                     break;
+                case "update":
+                    view = update(req,resp);
+                    if(method.equals("GET")) {
+                        req.getRequestDispatcher(path + view).forward(req,resp);
+                    } else if(method.equals("POST")) {
+                        resp.sendRedirect(view);
+                    }
+                    break;
+                case "delete":
+                    view = delete(req,resp);
+                    resp.sendRedirect(view);
+                    break;
             }
         }
-
-
-//    Insert ==>    service.insert(); ==> PRG
-//        service.findAll();
     }
 
     private String list(HttpServletRequest req, HttpServletResponse resp) {
@@ -94,5 +102,31 @@ public class StudentController extends HttpServlet {
             view="studentInsert.jsp";
         }
         return view;
+    }
+
+    private String update(HttpServletRequest req, HttpServletResponse resp) {
+        String method = req.getMethod();
+        String view="";
+        if(method.equals("POST")) {
+            Student s = new Student(
+                    Integer.parseInt(req.getParameter("id")),
+                    req.getParameter("name"),
+                    req.getParameter("univ"),
+                    Date.valueOf(req.getParameter("birth")),
+                    req.getParameter("email")
+            );
+            service.updateStudent(s);
+            view = "/students?action=info&id=" + s.getId();
+        } else if(method.equals("GET")) {
+            Student s = service.findById(Integer.parseInt(req.getParameter("id")));
+            req.setAttribute("s", s);
+            view = "studentUpdate.jsp";
+        }
+        return view;
+    }
+
+    private String delete(HttpServletRequest req, HttpServletResponse resp) {
+        service.deleteStudent(Integer.parseInt(req.getParameter("id")));
+        return "/students?action=list";
     }
 }

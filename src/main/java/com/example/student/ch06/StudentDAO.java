@@ -111,4 +111,40 @@ public class StudentDAO {
 //        }
         return student;
     }
+
+    public void updateStudent(Student s){
+        // univ , email 만 변경 가능함
+        String sql = "update student set univ = ?, email = ? where id = ?";
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, s.getUniv());
+            pstmt.setString(2, s.getEmail());
+            pstmt.setInt(3, s.getId());
+            int cnt = pstmt.executeUpdate();
+
+            if(cnt == 1) {
+                log.info("수정완료");
+            } else {
+                log.error("수정오류");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteStudent(int id){
+        String sql = "delete from student where id = ?";
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, id);
+            int cnt = pstmt.executeUpdate();
+            if(cnt == 1) {
+                log.info("삭제완료");
+            } else {
+                log.error("삭제오류");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
