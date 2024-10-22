@@ -45,6 +45,10 @@ public class StudentController extends HttpServlet {
                     view = list(req,resp);
                     req.getRequestDispatcher(path + view).forward(req,resp);
                     break;
+                case "info":
+                    view = info(req,resp);
+                    req.getRequestDispatcher(path + view).forward(req,resp);
+                    break;
                 case "insert":
                     view = insert(req, resp);
                     if(method.equals("GET")) {
@@ -65,6 +69,12 @@ public class StudentController extends HttpServlet {
         List<Student> students = service.findAll();
         req.setAttribute("students", students);
         return "studentList.jsp";
+    }
+
+    private String info(HttpServletRequest req, HttpServletResponse resp) {
+        Student student = service.findById(Integer.parseInt(req.getParameter("id")));
+        req.setAttribute("student", student);
+        return "studentInfo.jsp";
     }
 
     private String insert(HttpServletRequest req, HttpServletResponse resp) {

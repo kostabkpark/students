@@ -17,16 +17,16 @@
             <th>id</th>
             <th>name</th>
             <th>univ</th>
-            <th>birth</th>
-            <th>email</th>
+<%--            <th>birth</th>--%>
+<%--            <th>email</th>--%>
         </tr>
         <c:forEach var="s" items="${students}">
             <tr>
                 <td>${s.id}</td>
-                <td>${s.name}</td>
+                <td><a href="/students?action=info&id=${s.id}">${s.name}</a></td>
                 <td>${s.univ}</td>
-                <td>${s.birth}</td>
-                <td>${s.email}</td>
+<%--                <td>${s.birth}</td>--%>
+<%--                <td>${s.email}</td>--%>
             </tr>
         </c:forEach>
     </table>

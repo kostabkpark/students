@@ -83,4 +83,32 @@ public class StudentDAO {
 //        }
         return students;
     }
+
+    public Student findById(int id){
+        //  open();
+        Student student = null;
+
+        String sql = "select * from student where id = ?";
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+
+            while(rs.next()){
+                student = new Student(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("univ"),
+                        rs.getDate("birth"),
+                        rs.getString("email")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+//        finally {
+//            close();
+//        }
+        return student;
+    }
 }
