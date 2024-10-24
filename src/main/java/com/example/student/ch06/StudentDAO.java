@@ -120,12 +120,11 @@ public class StudentDAO {
             pstmt.setString(1, s.getUniv());
             pstmt.setString(2, s.getEmail());
             pstmt.setInt(3, s.getId());
-            int cnt = pstmt.executeUpdate();
-
-            if(cnt == 1) {
-                log.info("수정완료");
+            int rc = pstmt.executeUpdate();
+            if(rc == 1){
+                log.info("수정 완료");
             } else {
-                log.error("수정오류");
+                log.error("수정 오류");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -133,16 +132,15 @@ public class StudentDAO {
     }
 
     public void deleteStudent(int id){
+        // 1. sql 작성
         String sql = "delete from student where id = ?";
         try {
+            //2. pstmt 준비
             pstmt = conn.prepareStatement(sql);
+            //3. pstmt 매개변수 설정
             pstmt.setInt(1, id);
-            int cnt = pstmt.executeUpdate();
-            if(cnt == 1) {
-                log.info("삭제완료");
-            } else {
-                log.error("삭제오류");
-            }
+            //4. pstmst의 sql을 실행
+            pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }

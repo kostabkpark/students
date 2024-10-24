@@ -116,9 +116,10 @@ public class StudentController extends HttpServlet {
                     req.getParameter("email")
             );
             service.updateStudent(s);
-            view = "/students?action=info&id=" + s.getId();
+            view="/students?action=info&id=" + s.getId();
         } else if(method.equals("GET")) {
-            Student s = service.findById(Integer.parseInt(req.getParameter("id")));
+            int id = Integer.parseInt(req.getParameter("id"));
+            Student s = service.findById(id);
             req.setAttribute("s", s);
             view = "studentUpdate.jsp";
         }
@@ -126,7 +127,8 @@ public class StudentController extends HttpServlet {
     }
 
     private String delete(HttpServletRequest req, HttpServletResponse resp) {
-        service.deleteStudent(Integer.parseInt(req.getParameter("id")));
+        int id = Integer.parseInt(req.getParameter("id"));
+        service.deleteStudent(id);
         return "/students?action=list";
     }
 }
