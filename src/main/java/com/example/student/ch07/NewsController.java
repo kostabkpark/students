@@ -42,13 +42,31 @@ public class NewsController extends HttpServlet {
                     view = list(req,resp);
                     ctx.getRequestDispatcher(path + view).forward(req, resp);
                     break;
+                case "info" :
+                    view = info(req,resp);
+                    ctx.getRequestDispatcher(path + view).forward(req, resp);
+                    break;
             }
         }
     }
 
     private String list(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         List<News> news = newsDAO.findAll();
+        log.info("news list count: {}", news.size());
         req.setAttribute("news", news);
         return "newsList.jsp";
+    }
+
+    private String info(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        int aid = Integer.parseInt(req.getParameter("aid"));
+        News news = null;
+        try {
+            news = newsDAO.findByAid(aid);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        log.info("news list {}", news);
+        req.setAttribute("news", news);
+        return "newsInfo.jsp";
     }
 }
